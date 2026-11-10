@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Git Heatmap",
+    "description": "Aggregate commits from local and remote repositories into a GitHub-style heatmap with day / month / year views, one-click refresh for new commits, and in-panel commit & push."
+  }
+}

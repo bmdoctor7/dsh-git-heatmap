@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+  <!-- Git 热力图插件图标：4×4 的提交格阵，按 GitHub 贡献图的浓淡分五档。
+       格子尺寸 6px、间距 2px，整体在 36px 画布上居中；颜色只用品牌蓝一族的五道
+       透明度，不用任何外部引用或滤镜，作为 <img> 读入时也成立。 -->
+  <rect x="3" y="3" width="6" height="6" rx="1.6" fill="#E3E9FF" />
+  <rect x="11" y="3" width="6" height="6" rx="1.6" fill="#B8C6FF" />
+  <rect x="19" y="3" width="6" height="6" rx="1.6" fill="#E3E9FF" />
+  <rect x="27" y="3" width="6" height="6" rx="1.6" fill="#7D96FB" />
+
+  <rect x="3" y="11" width="6" height="6" rx="1.6" fill="#7D96FB" />
+  <rect x="11" y="11" width="6" height="6" rx="1.6" fill="#4D6BFE" />
+  <rect x="19" y="11" width="6" height="6" rx="1.6" fill="#B8C6FF" />
+  <rect x="27" y="11" width="6" height="6" rx="1.6" fill="#E3E9FF" />
+
+  <rect x="3" y="19" width="6" height="6" rx="1.6" fill="#B8C6FF" />
+  <rect x="11" y="19" width="6" height="6" rx="1.6" fill="#4D6BFE" />
+  <rect x="19" y="19" width="6" height="6" rx="1.6" fill="#4D6BFE" />
+  <rect x="27" y="19" width="6" height="6" rx="1.6" fill="#B8C6FF" />
+
+  <rect x="3" y="27" width="6" height="6" rx="1.6" fill="#E3E9FF" />
+  <rect x="11" y="27" width="6" height="6" rx="1.6" fill="#B8C6FF" />
+  <rect x="19" y="27" width="6" height="6" rx="1.6" fill="#7D96FB" />
+  <rect x="27" y="27" width="6" height="6" rx="1.6" fill="#4D6BFE" />
+</svg>

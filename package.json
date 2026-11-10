@@ -1,0 +1,63 @@
+{
+  "name": "dsh-git-heatmap",
+  "version": "0.1.0",
+  "description": "Git 提交热力图：把多个本地 / 远程仓库的提交记录汇总成 GitHub 风格热力图，按日 / 月 / 年切换查看；一键刷新检测新提交，并能在面板内直接提交、推送有改动的仓库。",
+  "icon": "./icon.svg",
+  "type": "module",
+  "main": "lib/index.js",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "git",
+    "heatmap",
+    "contribution",
+    "commit",
+    "cordis",
+    "react"
+  ],
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "lib",
+    "locale",
+    "docs",
+    "icon.svg",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-locale"
+      ],
+      "platform": "web"
+    },
+    "compatibility": {
+      "dshReleases": {
+        "0.2.1-rc.5": "compatible"
+      }
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bmdoctor7/dsh-git-heatmap.git"
+  },
+  "homepage": "https://github.com/bmdoctor7/dsh-git-heatmap#readme",
+  "bugs": {
+    "url": "https://github.com/bmdoctor7/dsh-git-heatmap/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
