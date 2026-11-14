@@ -178,6 +178,49 @@ window.addEventListener('load', () => {
 })
 </script>`
 
+// 仓库行 + 提交历史（单独一页，用来检查历史列表的排版）
+const SUBJECTS = [
+  'feat：可拾取武器和血量道具',
+  'feat：背包和快捷栏之间的 Add 和 Remove',
+  'feat：背包 UI 新增快捷栏 Slot',
+  'fix：热力图月份标签和点阵对不齐',
+  'chore：把刷新改成只 fetch 远程条目',
+  'docs：README 补截图与兼容性表',
+  'refactor：扫描改用 --no-optional-locks',
+  'test：补空仓库与中文路径用例',
+]
+const historyRows = {
+  commits: SUBJECTS.map((subject, index) => ({
+    hash: `abcdef${index}0123456789`,
+    short: `abcdef${index}`,
+    date: `2026-11-${String(10 - (index % 8)).padStart(2, '0')}T${String(9 + index).padStart(2, '0')}:24:00+08:00`,
+    author: index % 3 === 0 ? 'you' : 'teammate',
+    refs: index === 0 ? 'HEAD -> main, origin/main, origin/HEAD' : (index === 3 ? 'tag: v0.1.0' : ''),
+    subject,
+  })),
+  hasMore: true,
+  total: 46,
+  loading: false,
+  error: '',
+}
+const commitsHtml = render(React.createElement(mod.__internals.RepoRow, {
+  repo: localRepo,
+  index: 0,
+  t,
+  expanded: true,
+  busy: false,
+  onToggle: () => {},
+  onRemove: () => {},
+  onCommit: () => {},
+  onLoadHistory: () => {},
+  history: historyRows,
+}))
+
+const commitsPage = `<!doctype html><html lang="zh"><head><meta charset="utf-8"><title>commits</title>
+<style>${THEME}${CSS}</style></head><body style="padding:24px">
+<div class="ghm-page" style="height:auto"><div class="ghm-inner"><div class="ghm-card"><div class="ghm-repo-list">${commitsHtml}</div></div></div></div>
+</body></html>`
+
 const dayPage = `<!doctype html><html lang="zh"><head><meta charset="utf-8"><title>day</title>
 <style>${THEME}${CSS}</style></head><body style="padding:24px">
 <div class="ghm-page" style="height:auto"><div class="ghm-inner"><div class="ghm-card"><div class="ghm-heat">${dayHtml}</div></div></div></div>
@@ -189,4 +232,5 @@ const panelPage = `<!doctype html><html lang="zh"><head><meta charset="utf-8"><t
 
 fs.writeFileSync(new URL('day.html', out), dayPage)
 fs.writeFileSync(new URL('panel.html', out), panelPage)
+fs.writeFileSync(new URL('commits.html', out), commitsPage)
 console.log('written', out.pathname)

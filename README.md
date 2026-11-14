@@ -14,10 +14,14 @@
 - **日 / 月 / 年三种粒度**：日视图是 7×N 周历（可切年份），月视图按年 × 12 个月，年视图一年一格。
 - **刷新**：只对远程条目 `git fetch`（没有克隆就先 `clone --bare --filter=blob:none`）；**本地仓库不 fetch**，只重扫已有历史。
 - **统计小卡**：总提交、最近一次提交（仓库 + 日期 + 标题）、当前 / 最长连续提交天数、未提交文件数与未推送提交数。
+- **提交历史**：展开任意仓库即可看到该仓库的提交历史（日期 / 短 hash / 提交信息 / 分支与 tag 标记 / 作者），
+  分页加载（每页 30 条），只读、不含每次提交的具体改动。
 - **面板内提交 / 推送**：展开仓库行即可操作。`提交` = `git add -A` + `git commit -m`；`提交并推送` 再加 `git push`（无上游时 `push -u origin HEAD`）。**永远不带 `--force`**，远程条目是只读裸库、不能提交。
 - **远程仓库不需要 token**：走 bare 克隆（不存文件内容），GitHub / Gitee / 自建 GitLab / ssh 地址通用。
 
 ![日视图](docs/day.png)
+
+![提交历史](docs/commits.png)
 
 ## 安装
 
@@ -29,7 +33,7 @@ dsh plugin --profile <profile> add dsh-git-heatmap
 dsh plugin --profile <profile> add github:<user>/dsh-git-heatmap
 
 # 本地打好的 tgz
-dsh plugin --profile <profile> add <路径>/dsh-git-heatmap-0.1.0.tgz
+dsh plugin --profile <profile> add <路径>/dsh-git-heatmap-0.2.0.tgz
 ```
 
 Desktop 版：在 **插件** 页搜索包名安装，或按上面的 `dsh plugin` 命令装进 Desktop 使用的 profile
@@ -40,7 +44,8 @@ Desktop 版：在 **插件** 页搜索包名安装，或按上面的 `dsh plugin
 1. 左侧栏点「Git 热力图」。
 2. 输入框填**本地仓库绝对路径**（如 `D:\code\my-project`）或**远程地址**（`https://…` / `git@…`），回车添加。
 3. 点右上角圆形箭头刷新。
-4. 点仓库行展开，填提交信息后可提交 / 推送；点 `移除` 把仓库从列表删掉（远程条目会连带删掉裸克隆缓存）。
+4. 点仓库行展开：上半部分是**提交历史**（首次展开自动加载一页，`加载更多` 翻页，`重新加载` 刷新），
+   下半部分填提交信息后可提交 / 推送；点 `移除` 把仓库从列表删掉（远程条目会连带删掉裸克隆缓存）。
 
 ## 兼容性
 
@@ -56,7 +61,7 @@ Desktop 版：在 **插件** 页搜索包名安装，或按上面的 `dsh plugin
 
 ## 它会不会动你的仓库？
 
-- **扫描是只读的**：`git log` / `rev-list` / `symbolic-ref` / `rev-parse` / `remote` 都不写盘；唯一有副作用风险的 `git status` 用了 `git --no-optional-locks status --porcelain`，实测扫描前后 `.git/index` 的大小与 mtime 完全不变。
+- **扫描与提交历史都是只读的**：`git log` / `rev-list` / `symbolic-ref` / `rev-parse` / `remote` 都不写盘；唯一有副作用风险的 `git status` 用了 `git --no-optional-locks status --porcelain`，实测扫描前后 `.git/index` 的大小与 mtime 完全不变。
 - **刷新只 fetch 远程条目**：不往你自己的仓库里拉对象、不动 `refs/remotes`。本地仓库要看到远端新提交，自己在终端 fetch 一次再点刷新即可。
 - **写操作只有两个按钮**：提交、推送；没有后台写入、没有定时任务、没有遥测。
 - **数据目录**：`%USERPROFILE%\.dsh\storages\git-heatmap\`
@@ -81,6 +86,7 @@ Desktop 版：在 **插件** 页搜索包名安装，或按上面的 `dsh plugin
 | `POST /git-heat/api/add` | `{ input }` 添加本地路径或远程地址 |
 | `POST /git-heat/api/remove` | `{ id }` 移除（远程裸克隆一并删除） |
 | `POST /git-heat/api/refresh` | 只 fetch/克隆远程条目，然后强制重扫全部仓库 |
+| `POST /git-heat/api/log` | `{ id, limit?, skip? }` 某仓库的提交历史（分页，只读，无 diff） |
 | `POST /git-heat/api/commit` | `{ id, message, push }` 提交 / 推送 |
 
 请求带与官方 `/api` 网关同样的三道检查：Host 必须是回环 / 本机绑定地址 / `trustedHosts`、

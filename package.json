@@ -1,6 +1,6 @@
 {
   "name": "dsh-git-heatmap",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Git 提交热力图：把多个本地 / 远程仓库的提交记录汇总成 GitHub 风格热力图，按日 / 月 / 年切换查看；一键刷新检测新提交，并能在面板内直接提交、推送有改动的仓库。",
   "icon": "./icon.svg",
   "type": "module",

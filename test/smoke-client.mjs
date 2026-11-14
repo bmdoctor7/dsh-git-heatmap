@@ -141,6 +141,17 @@ const cases = [
   ['MonthHeatmap', { days, years, t }],
   ['YearHeatmap', { days, years, t }],
   ['RepoRow/local/dirty', { repo: localRepo, index: 0, t, expanded: true, busy: false, onToggle: () => {}, onRemove: () => {}, onCommit: () => {} }],
+  ['RepoRow/local/history', {
+    repo: localRepo, index: 0, t, expanded: true, busy: false,
+    onToggle: () => {}, onRemove: () => {}, onCommit: () => {}, onLoadHistory: () => {},
+    history: {
+      commits: [
+        { hash: 'abc1234def', short: 'abc1234', date: '2026-11-04T12:34:56+08:00', author: 'tester', refs: 'HEAD -> main, origin/main', subject: 'feat: 热力图' },
+        { hash: 'def5678abc', short: 'def5678', date: '2026-10-01T08:00:00+08:00', author: 'tester', refs: '', subject: 'fix: 对齐' },
+      ],
+      hasMore: true, total: 42, loading: false, error: '',
+    },
+  }],
   ['RepoRow/remote/collapsed', { repo: remoteRepo, index: 1, t, expanded: false, busy: false, onToggle: () => {}, onRemove: () => {}, onCommit: () => {} }],
   ['GitHeatPanel/loading', { t }],
 ]

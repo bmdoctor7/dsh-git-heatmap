@@ -102,6 +102,27 @@ if (view.totalCommits !== 2) throw new Error('提交数应为 2，实际 ' + vie
 if (view.dirty !== 1) throw new Error('未提交文件应为 1，实际 ' + view.dirty)
 if (state.lastCommit?.repoLabel !== 'sample repo') throw new Error('最近一次提交归属不对')
 
+// 提交历史：分页与顺序
+const page1 = await call('log', { id: view.id, limit: 1 })
+console.log('log 第一页:', JSON.stringify(page1.commits.map((commit) => commit.subject)), '| hasMore =', page1.hasMore, '| total =', page1.total)
+if (page1.commits.length !== 1) throw new Error('第一页应只有 1 条')
+if (page1.commits[0].subject !== '第二个提交') throw new Error('应按时间倒序，最新一条在最前')
+if (!page1.hasMore) throw new Error('还有下一页，hasMore 应为 true')
+if (page1.total !== 2) throw new Error('total 应为 2，实际 ' + page1.total)
+
+const page2 = await call('log', { id: view.id, limit: 1, skip: 1 })
+console.log('log 第二页:', JSON.stringify(page2.commits.map((commit) => commit.subject)), '| hasMore =', page2.hasMore)
+if (page2.commits[0]?.subject !== '第一个提交') throw new Error('第二页应是更早的提交')
+if (page2.hasMore) throw new Error('第二页之后不应再有下一页')
+
+const unknownRepo = await fetch(`${origin}/git-heat/api/log`, {
+  method: 'POST',
+  headers: { 'content-type': 'application/json' },
+  body: JSON.stringify({ id: 'rnonexistent0' }),
+}).then((res) => res.json())
+console.log('未知仓库 log ->', unknownRepo.ok, unknownRepo.error?.message)
+if (unknownRepo.ok) throw new Error('未知仓库不应返回提交历史')
+
 const bad = await fetch(`${origin}/git-heat/api/add`, {
   method: 'POST',
   headers: { 'content-type': 'application/json' },
