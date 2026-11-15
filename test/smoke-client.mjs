@@ -146,8 +146,9 @@ const cases = [
     onToggle: () => {}, onRemove: () => {}, onCommit: () => {}, onLoadHistory: () => {},
     history: {
       commits: [
-        { hash: 'abc1234def', short: 'abc1234', date: '2026-11-04T12:34:56+08:00', author: 'tester', refs: 'HEAD -> main, origin/main', subject: 'feat: 热力图' },
-        { hash: 'def5678abc', short: 'def5678', date: '2026-10-01T08:00:00+08:00', author: 'tester', refs: '', subject: 'fix: 对齐' },
+        { hash: 'abc1234def', short: 'abc1234', date: '2026-11-04T12:34:56+08:00', author: 'tester', refs: 'HEAD -> main, origin/main', parents: ['def5678abc', 'aaa999bbb'], subject: 'feat: 热力图' },
+        { hash: 'aaa999bbb', short: 'aaa999b', date: '2026-10-20T08:00:00+08:00', author: 'tester', refs: '', parents: ['def5678abc'], subject: 'feat: 合并分支' },
+        { hash: 'def5678abc', short: 'def5678', date: '2026-10-01T08:00:00+08:00', author: 'tester', refs: '', parents: [], subject: 'fix: 对齐' },
       ],
       hasMore: true, total: 42, loading: false, error: '',
     },
@@ -162,6 +163,9 @@ for (const [name, props] of cases) {
     : mod.__internals[name.split('/')[0]]
   const html = render(React.createElement(component, props))
   if (!html || html.length < 20) throw new Error(`${name} 渲染结果异常：${JSON.stringify(html)}`)
+  if (name.startsWith('RepoRow') && props.history && !html.includes('<circle')) {
+    throw new Error(`${name} 没有渲染提交图`)
+  }
   console.log(`OK ${name} → ${html.length} 字符`)
 }
 

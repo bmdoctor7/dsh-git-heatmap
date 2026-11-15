@@ -189,6 +189,7 @@ const SUBJECTS = [
   'refactor：扫描改用 --no-optional-locks',
   'test：补空仓库与中文路径用例',
 ]
+const GRAPH_PARENTS = [[1], [2, 4], [3], [5], [5], [6], [7], []]
 const historyRows = {
   commits: SUBJECTS.map((subject, index) => ({
     hash: `abcdef${index}0123456789`,
@@ -196,6 +197,7 @@ const historyRows = {
     date: `2026-11-${String(10 - (index % 8)).padStart(2, '0')}T${String(9 + index).padStart(2, '0')}:24:00+08:00`,
     author: index % 3 === 0 ? 'you' : 'teammate',
     refs: index === 0 ? 'HEAD -> main, origin/main, origin/HEAD' : (index === 3 ? 'tag: v0.1.0' : ''),
+    parents: (GRAPH_PARENTS[index] || []).map((target) => `abcdef${target}0123456789`),
     subject,
   })),
   hasMore: true,

@@ -16,6 +16,8 @@
 - **统计小卡**：总提交、最近一次提交（仓库 + 日期 + 标题）、当前 / 最长连续提交天数、未提交文件数与未推送提交数。
 - **提交历史**：展开任意仓库即可看到该仓库的提交历史（日期 / 短 hash / 提交信息 / 分支与 tag 标记 / 作者），
   分页加载（每页 30 条），只读、不含每次提交的具体改动。
+- **提交图**：每条提交右侧有一列可视化节点——按父提交关系算出的泳道、节点与合并/分叉曲线，
+  和 `git log --graph` 的读法一致（同一条泳道＝同一条提交线）。
 - **面板内提交 / 推送**：展开仓库行即可操作。`提交` = `git add -A` + `git commit -m`；`提交并推送` 再加 `git push`（无上游时 `push -u origin HEAD`）。**永远不带 `--force`**，远程条目是只读裸库、不能提交。
 - **远程仓库不需要 token**：走 bare 克隆（不存文件内容），GitHub / Gitee / 自建 GitLab / ssh 地址通用。
 
@@ -33,7 +35,7 @@ dsh plugin --profile <profile> add dsh-git-heatmap
 dsh plugin --profile <profile> add github:<user>/dsh-git-heatmap
 
 # 本地打好的 tgz
-dsh plugin --profile <profile> add <路径>/dsh-git-heatmap-0.2.0.tgz
+dsh plugin --profile <profile> add <路径>/dsh-git-heatmap-0.3.0.tgz
 ```
 
 Desktop 版：在 **插件** 页搜索包名安装，或按上面的 `dsh plugin` 命令装进 Desktop 使用的 profile
